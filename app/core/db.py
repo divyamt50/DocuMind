@@ -28,4 +28,5 @@ async def get_db()->AsyncGenerator[AsyncSession,None]:
         try:
             yield session
         except:
-            await session.close()
+            await session.rollback()
+            raise
