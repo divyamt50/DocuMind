@@ -4,11 +4,13 @@ from app.api.auth import router as auth_router
 from fastapi import HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from app.api.documents import router as documents_router
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
 app.include_router(auth_router)
+app.include_router(documents_router)
 
 @app.get("/healthz")
 def get_status():
