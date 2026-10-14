@@ -220,10 +220,14 @@ Inspect the generated migration before applying it. Avoid deleting database volu
 
 Health check:
 
+Local:
 ```bash
 curl http://localhost:8000/healthz
 ```
-
+Live:
+```bash
+curl http://13.204.76.96/healthz
+```
 Expected response:
 
 ```json
