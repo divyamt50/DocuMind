@@ -23,6 +23,7 @@ async def create_document(data:DocumentCreate, tenant_id:UUID = Depends(get_tena
 
         db.add(document)
         await db.flush()
+        await db.commit()
 
         result = await db.execute(
             select(Document).options(selectinload(Document.chunks))
@@ -84,8 +85,8 @@ async def get_document(document_id:UUID, tenant_id:UUID=Depends(get_tenant_id), 
 
     return document
 
-@router.patch("/{document_id}", response_model = DocumentUpdate, status_code = status.HTTP_201_CREATED)
-async def update_document(document_id:UUID,data:Document, tenant_id:UUID = Depends(get_tenant_id),db:AsyncSession=Depends(get_db)):
+@router.patch("/{document_id}", response_model = DocumentRead, status_code = status.HTTP_200_OK)
+async def update_document(document_id:UUID,data:DocumentUpdate, tenant_id:UUID = Depends(get_tenant_id),db:AsyncSession=Depends(get_db)):
     updates = data.model_dump(exclude_unset=True)
 
     if not updates or updates.get("file_name") is None:
@@ -109,6 +110,8 @@ async def update_document(document_id:UUID,data:Document, tenant_id:UUID = Depen
             setattr(document, key, value)
 
         await db.flush()
+
+        await db.commit()
 
 
     return document
