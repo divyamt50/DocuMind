@@ -1,5 +1,4 @@
 from fastapi import APIRouter, status, Depends, HTTPException
-from schemas import UserResponse
 from app.schemas import RegisterRequest, LoginRequest, TokenResponse, UserResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db import get_db
